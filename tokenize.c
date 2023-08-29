@@ -1,13 +1,24 @@
 #include "main.h"
 
-
-char *get_path(char *name, env)
+char **tokenize_buffer(char *s)
 {
-  return 0;
-}
+	char **toks = NULL;
+	int num = 0;
+	char *token = NULL, *delimiter = " \n";
 
+	toks = malloc(sizeof(char *) * 25);
+	if (toks == NULL)
+		return (NULL);
 
-char **tokenize_buffer(char *path, char *argv)
-{
-  return 0;
+	token = strtok(s, delimiter);
+
+	while (token != NULL)
+	{
+		toks[num] = token;
+		token = strtok(NULL, delimiter);
+		num++;
+	}
+
+	toks[num] = NULL;
+	return (toks);
 }

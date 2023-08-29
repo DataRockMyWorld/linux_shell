@@ -9,11 +9,12 @@
  * Return errno on success
  */
 
-int main(int argc, char **args, chr **env)
+int main(int argc, char **args, char **env)
 {
-	char **argv = NULL, **buf_len = NULL;
+	char **argv = NULL, *buf = NULL;
 	size_t buf_size = 0;
-	int count = 0;
+	ssize_t buf_len;
+	int count = 0, i;
 	char *parsed_path = NULL;
 
 	while (1)
@@ -22,31 +23,27 @@ int main(int argc, char **args, chr **env)
 
 		if (isatty(STDIN_FILENO))
 			write(STDOUT_FILENO, "$ ", 2);
-		buf_len = getline(buf, &buf_size, stdin);
+		buf_len = _getline(&buf, &buf_size, stdin);
 		if (buf_len == -1)
 		{
-			free(buffer);
+			free(buf);
 			return (errno);
 		}
-
 		argv = tokenize_buffer(buf);
 
-		if (handle_builtin(argv, env) == 1)
+		if (handle_builtin(argv, args, env) == 1)
 		{
 			free(argv);
 			free(buf);
 			return (errno);
 		}
-		if (access(argv[0], X_OK) == -1)
+		else if (access(argv[0], F_OK) == 0)
 		{
-			parsed_path = handle_path(argv, env);
+			fork_command(argv, buf, args);
 		}
-		fork_command(argv, buf, args);
-			  
-	  (argv, buf, env);
-		}
-			
-
+		else
+			handle_command(argv, args, env);
 	}
+	free(buf);
 	return (errno);
 }
