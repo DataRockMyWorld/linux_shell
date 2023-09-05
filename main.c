@@ -14,12 +14,14 @@ int main(int argc, char **args, char **env)
 	char **argv = NULL, *buf = NULL;
 	size_t buf_size = 0;
 	ssize_t buf_len;
-	int count = 0, i;
+	int tally = 0, i;
 	char *parsed_path = NULL;
+
+	errno = 0;
 
 	while (1)
 	{
-		count++;
+		tally++;
 
 		if (isatty(STDIN_FILENO))
 			write(STDOUT_FILENO, "$ ", 2);
@@ -35,14 +37,14 @@ int main(int argc, char **args, char **env)
 		{
 			free(argv);
 			free(buf);
-			return (errno);
+			continue;
 		}
 		else if (access(argv[0], F_OK) == 0)
 		{
-			fork_command(argv, buf, args);
+			fork_direct(argv, args, env);
 		}
 		else
-			handle_command(argv, args, env);
+			handle_command(argv, args, env, tally);
 	}
 	free(buf);
 	return (errno);
