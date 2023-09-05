@@ -42,10 +42,11 @@ int main(int argc, char **args, char **env)
 		else if (access(argv[0], F_OK) == 0)
 		{
 			fork_direct(argv, args, env);
+			free(buf);
+			continue;
 		}
-		else
-			handle_command(argv, args, env, tally);
+		else if (handle_command(argv, args, env, tally) == -1)
+			error_command(args[0], tally, argv[0]);
 	}
-	free(buf);
 	return (errno);
 }

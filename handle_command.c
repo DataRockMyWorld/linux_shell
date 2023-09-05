@@ -7,10 +7,9 @@ int handle_command(char **argv, char **args, char **env, int tally)
     parsed_cmd = handle_path(argv[0], env);
 
     if (parsed_cmd == NULL)
-    {
-        parse_error(argv, args, tally);
-    }
+        return (-1);
     fork_process(argv, args, parsed_cmd, env);
-
-    return (0);
+    free(argv);
+    free(parsed_cmd);
+    return (1);
 }

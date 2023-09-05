@@ -25,7 +25,13 @@ int builtin_env(char **argv, char **env)
 
 int builtin_exit(char **argv, char **env)
 {
-    return 0;
+    (void)env;
+
+    errno = 0;
+
+    if (argv[1] == NULL)
+        return (errno);
+    return (errno);
 }
 
 int builtin_cd(char **argv, char **env)
