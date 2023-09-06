@@ -1,6 +1,6 @@
 #include "main.h"
 
-int handle_command(char **argv, char **args, char **env, int tally)
+int handle_command(char **argv, char **args, char **env)
 {
     char *parsed_cmd = NULL;
 
@@ -8,8 +8,7 @@ int handle_command(char **argv, char **args, char **env, int tally)
 
     if (parsed_cmd == NULL)
         return (-1);
+
     fork_process(argv, args, parsed_cmd, env);
-    free(argv);
-    free(parsed_cmd);
     return (1);
 }

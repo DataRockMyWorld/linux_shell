@@ -25,12 +25,11 @@ int builtin_env(char **argv, char **env)
 
 int builtin_exit(char **argv, char **env)
 {
-    (void)env;
-
     errno = 0;
 
-    if (argv[1] == NULL)
-        return (errno);
+    (void)env;
+    (void)argv;
+    printf("exit function was visited");
     return (errno);
 }
 

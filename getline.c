@@ -16,16 +16,16 @@ ssize_t _getline(char **lineptr, size_t *n, FILE *file)
 	int c;
 
 	if (lineptr == NULL || n == NULL)
-	return (-1);
+		return (-1);
 	if (*lineptr == NULL || *n == 0)
 	{
-	*n = 1024;
-	*lineptr = (char *)malloc(*n);
-	if (*lineptr == NULL)
-	{
-		return (-1);
-	}
-	buffer_size = *n;
+		*n = 1024;
+		*lineptr = (char *)malloc(*n);
+		if (*lineptr == NULL)
+		{
+			return (-1);
+		}
+		buffer_size = *n;
 	}
 	while (read(fileno(file), &c, 1) > 0)
 	{

@@ -34,7 +34,6 @@ int fork_process(char **args, char **argv, char *fullcmd, char **env)
 		if (WIFEXITED(status))
 			status = WEXITSTATUS(status);
 		errno = status;
-		free(args);
 	}
 	return (status);
 }

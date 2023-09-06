@@ -11,7 +11,7 @@
 
 int main(int argc, char **args, char **env)
 {
-	char **argv = NULL, *buf = NULL;
+	char **argv = NULL, *buf = NULL, value;
 	size_t buf_size = 0;
 	ssize_t buf_len;
 	int tally = 0, i;
@@ -29,24 +29,28 @@ int main(int argc, char **args, char **env)
 		if (buf_len == -1)
 		{
 			free(buf);
-			return (errno);
+			continue;
 		}
 		argv = tokenize_buffer(buf);
 
 		if (handle_builtin(argv, args, env) == 1)
 		{
-			free(argv);
-			free(buf);
 			continue;
 		}
+		/*
 		else if (access(argv[0], F_OK) == 0)
 		{
 			fork_direct(argv, args, env);
-			free(buf);
 			continue;
 		}
-		else if (handle_command(argv, args, env, tally) == -1)
-			error_command(args[0], tally, argv[0]);
+		
+		else if (handle_command(argv, args, env) == -1)
+		{
+			value = tally + '0';
+			error_command(args[0], value, argv[0]);
+			free(buf);
+		}
+		*/
 	}
 	return (errno);
 }
